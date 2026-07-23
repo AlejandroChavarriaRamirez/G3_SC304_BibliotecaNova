@@ -9,8 +9,7 @@ package BibliotecaNova;
  * Andres Brenes Herrera
  * Saul Amir Alvarado Montero
  * Josel Pablo Vargas Caldero
- *
- * @author aleja
+ * 
  */
 public class Principal {
 
