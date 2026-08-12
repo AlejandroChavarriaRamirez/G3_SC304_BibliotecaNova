@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package bibliotecanova;
+package Bibliotecanova;
 
 import javax.swing.JOptionPane;
 
@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
  *
  * @author aleja
  */
+
 public class ListaEjemplares {
 
     private NodoEjemplar inicio;
