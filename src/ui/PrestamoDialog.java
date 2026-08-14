@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
 import service.GestorPrestamos;
 
 /**
- * Formulario del préstamo. Si el libro no tiene ejemplares libres, ofrece
+ * Formulario del préstamo. Cuando el libro no tiene ejemplares libres, ofrece
  * dejar al usuario en la cola de reservas.
  *
  * @author Grupo 3
@@ -34,7 +34,7 @@ public class PrestamoDialog extends javax.swing.JDialog {
         setResizable(false);
         setLocationRelativeTo(parent);
 
-        //La barra queda fija; el disenador no conserva esta propiedad
+        //Se fija aqui porque el disenador no conserva esta propiedad
         jToolBar1.setFloatable(false);
 
         lblPlazo.setText("El préstamo vence a los " + GestorPrestamos.DIAS_PRESTAMO + " días.");
@@ -143,7 +143,7 @@ public class PrestamoDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    //Registra el prestamo, o encola la reserva si no hay ejemplares libres
+    //Presta, o encola la reserva si no hay ejemplares libres
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
 
         try {
@@ -161,7 +161,7 @@ public class PrestamoDialog extends javax.swing.JDialog {
 
         } catch (PrestamoNoPermitidoException ex) {
 
-            //Cuando no hay ejemplares libres se le ofrece la cola de reservas
+            //Sin ejemplares libres, se le ofrece la cola
             int respuesta = JOptionPane.showConfirmDialog(this,
                     ex.getMessage() + "\n\n¿Desea dejar la reserva en la cola?",
                     "Préstamo", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
@@ -176,7 +176,7 @@ public class PrestamoDialog extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
-    //Encola la reserva del usuario
+    //Deja al usuario en la cola
     private void registrarReserva() {
 
         try {
@@ -196,7 +196,7 @@ public class PrestamoDialog extends javax.swing.JDialog {
         }
     }
 
-    //Cierra el formulario sin guardar
+    //Sale sin guardar nada
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed

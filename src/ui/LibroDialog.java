@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 import service.GestorLibros;
 
 /**
- * Formulario para insertar un libro nuevo en el árbol del catálogo.
+ * Formulario para meter un libro nuevo en el árbol del catálogo.
  *
  * @author Grupo 3
  */
@@ -30,10 +30,10 @@ public class LibroDialog extends javax.swing.JDialog {
         setResizable(false);
         setLocationRelativeTo(parent);
 
-        //La barra queda fija; el disenador no conserva esta propiedad
+        //Se fija aqui porque el disenador no conserva esta propiedad
         jToolBar1.setFloatable(false);
 
-        //Propone el siguiente codigo del consecutivo (L-1, L-2, L-3 ...)
+        //Le propone el siguiente codigo: L-1, L-2, L-3 y asi
         txtCodigo.setText(gestorLibros.siguienteCodigo());
         txtTitulo.requestFocus();
     }
@@ -167,7 +167,7 @@ public class LibroDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    //Inserta el libro en el arbol
+    //Mete el libro en el arbol
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
 
         try {
@@ -187,7 +187,7 @@ public class LibroDialog extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
-    //Cierra el formulario sin guardar
+    //Sale sin guardar nada
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed

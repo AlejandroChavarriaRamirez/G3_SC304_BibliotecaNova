@@ -5,7 +5,7 @@
 package ui;
 
 /**
- * Ventana con los datos del proyecto y de las estructuras que se utilizaron.
+ * Los datos del proyecto y las estructuras que se usaron.
  *
  * @author Grupo 3
  */
@@ -23,7 +23,7 @@ public class AcercaDialog extends javax.swing.JDialog {
         setResizable(false);
         setLocationRelativeTo(parent);
 
-        //La barra queda fija; el disenador no conserva esta propiedad
+        //Se fija aqui porque el disenador no conserva esta propiedad
         jToolBar1.setFloatable(false);
         txtInfo.setCaretPosition(0);
     }
@@ -84,7 +84,7 @@ public class AcercaDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    //Cierra la ventana
+    //Cierra
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         dispose();
     }//GEN-LAST:event_btnAceptarActionPerformed

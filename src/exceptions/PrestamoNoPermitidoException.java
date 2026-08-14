@@ -5,8 +5,8 @@
 package exceptions;
 
 /**
- * Se lanza cuando el prestamo no se puede hacer: el usuario esta moroso, el
- * libro no tiene ejemplares libres o el ejemplar ya esta prestado.
+ * Salta cuando el prestamo no se puede hacer, sea porque el usuario esta
+ * suspendido o porque el libro no tiene ejemplares libres.
  *
  * @author Grupo 3
  */

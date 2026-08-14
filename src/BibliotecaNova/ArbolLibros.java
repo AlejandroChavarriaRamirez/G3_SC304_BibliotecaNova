@@ -25,8 +25,8 @@ public class ArbolLibros {
     }
 
     /**
-     * Raiz del arbol. Se ocupa para recorrerlo desde afuera, por ejemplo
-     * cuando se guardan los libros en el archivo.
+     * Devuelve la raiz para poder recorrer el arbol desde afuera, que es lo
+     * que hace falta a la hora de guardar los libros.
      */
     public NodoArbol getRaiz() {
         return raiz;
@@ -51,12 +51,10 @@ public class ArbolLibros {
     }
 
     /**
-     * Compara dos codigos de libro.
-     *
-     * Cuando los dos traen el mismo prefijo y un numero (L-1, L-2, L-10) la
-     * comparacion se hace por el numero. Si se compararan como texto, "L-10"
-     * quedaria antes que "L-2" y el recorrido inorden saldria desordenado.
-     * Si los codigos no tienen ese formato se comparan como texto normal.
+     * Compara dos codigos de libro. Si los dos llevan el mismo prefijo y
+     * terminan en numero (L-1, L-2, L-10) se comparan los numeros. Comparados
+     * como texto, "L-10" caeria antes que "L-2" y el inorden saldria
+     * desordenado. Cualquier otro formato se compara como texto normal.
      */
     private int comparar(String codigo1, String codigo2) {
 
@@ -76,7 +74,7 @@ public class ArbolLibros {
         return codigo1.compareTo(codigo2);
     }
 
-    //Parte del codigo que va antes del guion, por ejemplo "L"
+    //Lo que va antes del guion, por ejemplo la "L"
     private String prefijoDe(String codigo) {
         int guion = codigo.indexOf('-');
         if (guion < 0) {
@@ -85,7 +83,7 @@ public class ArbolLibros {
         return codigo.substring(0, guion);
     }
 
-    //Numero que va despues del guion, o -1 si el codigo no tiene ese formato
+    //El numero de despues del guion; -1 si el codigo no viene en ese formato
     private int numeroDe(String codigo) {
 
         int guion = codigo.indexOf('-');
@@ -106,8 +104,8 @@ public class ArbolLibros {
     }
 
     /**
-     * Numero de codigo mas alto que hay en el arbol. Sirve para proponer el
-     * consecutivo cuando se registra un libro nuevo.
+     * Busca el numero de codigo mas alto que hay en el arbol. Con ese sale el
+     * consecutivo que se le propone al usuario al registrar un libro.
      */
     public int numeroMaximo() {
         return maximoRec(raiz);
@@ -174,7 +172,7 @@ public class ArbolLibros {
     }
 
     /**
-     * Suma los ejemplares de todos los libros del catalogo.
+     * Cuenta los ejemplares de todo el catalogo.
      */
     public int contarEjemplares() {
         return contarEjemplaresRec(raiz);
@@ -190,16 +188,15 @@ public class ArbolLibros {
     }
 
     /**
-     * Devuelve el recorrido inorden como texto, para mostrarlo en la interfaz
-     * sin abrir la ventana emergente.
+     * El inorden en forma de texto, que es como lo ocupa la interfaz.
      */
     public String recorridoInorden() {
         return mostrarRec(raiz);
     }
 
     /**
-     * Recorrido preorden: primero la raiz, despues el subarbol izquierdo y de
-     * ultimo el derecho. Sirve para ver como quedo armado el arbol.
+     * Preorden: la raiz, luego el subarbol izquierdo y de ultimo el derecho.
+     * Con este se ve como quedo armado el arbol.
      */
     public String recorridoPreorden() {
         return preordenRec(raiz);
@@ -216,7 +213,7 @@ public class ArbolLibros {
     }
 
     /**
-     * Recorrido postorden: los dos subarboles y de ultimo la raiz.
+     * Postorden: los dos subarboles primero y la raiz de ultima.
      */
     public String recorridoPostorden() {
         return postordenRec(raiz);
@@ -232,7 +229,7 @@ public class ArbolLibros {
         return texto;
     }
 
-    //Arma la linea de un libro para los recorridos
+    //Arma la linea de texto de un libro
     private String linea(NodoArbol nodo) {
         return "Codigo: " + nodo.getElemento().getCodigo()
                 + " - Titulo: " + nodo.getElemento().getTitulo()
@@ -242,9 +239,9 @@ public class ArbolLibros {
     }
 
     /**
-     * Recorrido inorden pasado a una matriz, para llenar la tabla del catalogo.
-     * Como el inorden de un arbol binario de busqueda sale ordenado, la tabla
-     * queda ordenada por codigo sin necesidad de ordenarla despues.
+     * El inorden pasado a matriz para llenar la tabla del catalogo. Como en un
+     * arbol de busqueda el inorden ya sale ordenado, la tabla queda ordenada
+     * por codigo sin tener que ordenar nada.
      */
     public String[][] obtenerMatriz() {
         String[][] datos = new String[contarLibros()][6];
@@ -269,8 +266,8 @@ public class ArbolLibros {
     }
 
     /**
-     * Altura del arbol, sirve para explicar en la defensa por que la busqueda
-     * es O(log n) y no O(n).
+     * Altura del arbol. Es el dato con el que se explica por que la busqueda
+     * anda en O(log n) y no en O(n).
      */
     public int altura() {
         return alturaRec(raiz);

@@ -5,7 +5,7 @@
 package BibliotecaNova;
 
 /**
- * Lista simplemente enlazada con los prestamos del sistema.
+ * Lista simple con los prestamos del sistema.
  *
  * @author aleja
  */
@@ -62,7 +62,7 @@ public class ListaPrestamos {
     }
 
     /**
-     * Prestamos que todavia no han sido devueltos, esten al dia o vencidos.
+     * Los que todavia no han devuelto, al dia o vencidos.
      */
     public int contarActivos() {
         int total = 0;
@@ -89,8 +89,8 @@ public class ListaPrestamos {
     }
 
     /**
-     * Recorre la lista buscando los prestamos de un usuario. Se usa en el
-     * reporte de sanciones.
+     * Arma el detalle de los prestamos de un usuario. Lo ocupa el reporte de
+     * sanciones.
      */
     public String recorridoDeUsuario(String carne) {
         String texto = "";
@@ -108,7 +108,7 @@ public class ListaPrestamos {
     }
 
     /**
-     * Matriz con los prestamos para la tabla de la interfaz.
+     * Los prestamos en matriz para la tabla.
      */
     public String[][] obtenerMatriz() {
         String[][] datos = new String[contar()][7];

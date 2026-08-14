@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 import service.GestorLibros;
 
 /**
- * Formulario para agregar un ejemplar físico a la lista enlazada de un libro.
+ * Formulario para agregarle un ejemplar a la lista enlazada de un libro.
  *
  * @author Grupo 3
  */
@@ -33,7 +33,7 @@ public class EjemplarDialog extends javax.swing.JDialog {
         setResizable(false);
         setLocationRelativeTo(parent);
 
-        //La barra queda fija; el disenador no conserva esta propiedad
+        //Se fija aqui porque el disenador no conserva esta propiedad
         jToolBar1.setFloatable(false);
 
         Libro libro = gestorLibros.buscarLibro(codigoLibro);
@@ -43,7 +43,7 @@ public class EjemplarDialog extends javax.swing.JDialog {
 
         if (libro != null) {
             lblLibroTitulo.setText(libro.getTitulo());
-            //Propone el siguiente consecutivo del ejemplar
+            //Le propone el consecutivo que sigue
             txtCodigo.setText("E-" + libro.getCodigo().replace("L-", "") + "-"
                     + (libro.getListaEjemplares().contar() + 1));
         }
@@ -151,7 +151,7 @@ public class EjemplarDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    //Agrega el ejemplar al final de la lista enlazada del libro
+    //Lo agrega al final de la lista del libro
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
 
         try {
@@ -167,7 +167,7 @@ public class EjemplarDialog extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
-    //Cierra el formulario sin guardar
+    //Sale sin guardar nada
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed

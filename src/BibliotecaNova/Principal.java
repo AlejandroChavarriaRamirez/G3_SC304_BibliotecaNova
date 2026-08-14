@@ -33,8 +33,8 @@ public class Principal {
         }
 
         /*
-         * Los gestores se crean una sola vez porque las estructuras de datos
-         * viven en memoria mientras la aplicacion este abierta.
+         * Los gestores se arman una sola vez: las estructuras viven en memoria
+         * mientras el programa este abierto.
          */
         final service.GestorLibros gestorLibros = new service.GestorLibros();
         final service.GestorUsuarios gestorUsuarios = new service.GestorUsuarios();
@@ -42,15 +42,15 @@ public class Principal {
                 new service.GestorPrestamos(gestorLibros, gestorUsuarios);
 
         /*
-         * Si ya se habia usado el sistema antes, la informacion se lee de los
-         * archivos de la carpeta "datos". La primera vez no hay nada guardado,
-         * entonces se cargan los datos de ejemplo.
+         * Si el sistema ya se habia usado, la informacion sale de los archivos
+         * de la carpeta "datos". La primera vez no hay nada, asi que entran los
+         * datos de ejemplo.
          */
         if (!service.GestorArchivos.cargar(gestorLibros, gestorUsuarios, gestorPrestamos)) {
             service.GestorDatosPrueba.cargar(gestorLibros, gestorUsuarios, gestorPrestamos);
         }
 
-        //Arranca la aplicacion en la ventana principal
+        //Abre la ventana principal
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {

@@ -25,13 +25,11 @@ import java.io.PrintWriter;
 import java.time.LocalDate;
 
 /**
- * Guarda y carga la informacion en archivos de texto, para que los datos no se
- * pierdan al cerrar el programa.
- *
- * Cada archivo guarda un registro por linea y los campos van separados por
- * punto y coma. Al abrir el sistema las lineas se vuelven a insertar en las
- * estructuras: los libros en el arbol, los usuarios en la lista doble, las
- * reservas en la cola y las devoluciones en la pila.
+ * Lee y escribe la informacion en archivos de texto, para que no se pierda al
+ * cerrar el programa. Va un registro por linea y los campos separados por punto
+ * y coma. Al abrir, cada linea se vuelve a insertar donde corresponde: los
+ * libros en el arbol, los usuarios en la lista doble, las reservas en la cola y
+ * las devoluciones en la pila.
  *
  * @author Grupo 3
  */
@@ -51,7 +49,7 @@ public class GestorArchivos {
     private static final String ARCHIVO_CONTADORES = "contadores.txt";
 
     /**
-     * Revisa si ya hay informacion guardada de una sesion anterior.
+     * Dice si quedo informacion guardada de la vez pasada.
      */
     public static boolean hayDatosGuardados() {
         return new File(CARPETA, ARCHIVO_LIBROS).exists()
@@ -63,7 +61,7 @@ public class GestorArchivos {
     // =====================================================================
 
     /**
-     * Recorre todas las estructuras y las escribe en los archivos.
+     * Recorre las estructuras y las vuelca en los archivos.
      */
     public static void guardar(GestorLibros gestorLibros, GestorUsuarios gestorUsuarios,
             GestorPrestamos gestorPrestamos) {
@@ -103,9 +101,9 @@ public class GestorArchivos {
         }
 
         /*
-         * Se escribe en preorden a proposito: al volver a leer el archivo los
-         * libros entran al arbol en el mismo orden en que estaban y el arbol
-         * queda armado igualito que antes.
+         * Va en preorden a proposito. Asi, al leer el archivo, los libros
+         * entran al arbol en el mismo orden de antes y el arbol queda con la
+         * misma forma.
          */
         Libro libro = nodo.getElemento();
         salida.println(libro.getCodigo() + SEPARADOR + libro.getTitulo() + SEPARADOR
@@ -115,7 +113,7 @@ public class GestorArchivos {
         escribirLibrosRec(nodo.getDerecha(), salida);
     }
 
-    //Los ejemplares de cada libro, con el estado en que quedaron
+    //Los ejemplares de cada libro con el estado en que quedaron
     private static void guardarEjemplares(GestorLibros gestorLibros) throws Exception {
 
         PrintWriter salida = abrir(ARCHIVO_EJEMPLARES);
@@ -177,7 +175,7 @@ public class GestorArchivos {
         salida.close();
     }
 
-    //La cola se guarda desde el frente, que es el orden en que se atiende
+    //La cola va desde el frente, que es el orden en que se atiende
     private static void guardarReservas(GestorPrestamos gestorPrestamos) throws Exception {
 
         PrintWriter salida = abrir(ARCHIVO_RESERVAS);
@@ -193,7 +191,7 @@ public class GestorArchivos {
         salida.close();
     }
 
-    //La pila se guarda desde el tope, o sea de lo mas reciente a lo mas viejo
+    //La pila va desde el tope, o sea de lo mas nuevo a lo mas viejo
     private static void guardarDevoluciones(GestorPrestamos gestorPrestamos) throws Exception {
 
         PrintWriter salida = abrir(ARCHIVO_DEVOLUCIONES);
@@ -211,7 +209,7 @@ public class GestorArchivos {
         salida.close();
     }
 
-    //Ultimos numeros usados en los codigos de prestamo y de reserva
+    //Los ultimos numeros que se usaron en los codigos P- y R-
     private static void guardarContadores(GestorPrestamos gestorPrestamos) throws Exception {
 
         PrintWriter salida = abrir(ARCHIVO_CONTADORES);
@@ -229,8 +227,8 @@ public class GestorArchivos {
     // =====================================================================
 
     /**
-     * Lee los archivos y vuelve a armar las estructuras. Devuelve false cuando
-     * no habia nada guardado.
+     * Lee los archivos y arma otra vez las estructuras. Devuelve false si no
+     * habia nada guardado.
      */
     public static boolean cargar(GestorLibros gestorLibros, GestorUsuarios gestorUsuarios,
             GestorPrestamos gestorPrestamos) {
@@ -257,7 +255,7 @@ public class GestorArchivos {
         }
     }
 
-    //Los libros vuelven a entrar al arbol en el mismo orden en que se guardaron
+    //Los libros entran al arbol en el mismo orden en que se guardaron
     private static void cargarLibros(GestorLibros gestorLibros) throws Exception {
 
         BufferedReader entrada = leer(ARCHIVO_LIBROS);
@@ -302,7 +300,7 @@ public class GestorArchivos {
                     ejemplar.setCodigoEjemplar(campos[1]);
                     ejemplar.setEstado(campos[2]);
                     libro.getListaEjemplares().agregarEjemplar(ejemplar);
-                    //Se recalcula cuantos quedaron libres
+                    //Hay que recontar cuantos quedaron libres
                     libro.setCantidadDisponible(libro.getListaEjemplares().contarDisponibles());
                 }
             }
@@ -367,7 +365,7 @@ public class GestorArchivos {
         entrada.close();
     }
 
-    //Se encolan en el mismo orden en que estaban esperando
+    //Se encolan en el orden en que estaban esperando
     private static void cargarReservas(GestorPrestamos gestorPrestamos) throws Exception {
 
         BufferedReader entrada = leer(ARCHIVO_RESERVAS);
@@ -394,9 +392,9 @@ public class GestorArchivos {
     }
 
     /*
-     * El archivo trae las devoluciones desde el tope. Si se apilaran de una vez
-     * quedarian al reves, entonces primero se pasan a una pila auxiliar y de
-     * ahi a la pila del sistema, que las deja en el orden correcto.
+     * El archivo trae las devoluciones desde el tope. Apilarlas de una vez las
+     * dejaria al reves, entonces pasan primero por una pila auxiliar y de ahi a
+     * la del sistema, que ya las deja en orden.
      */
     private static void cargarDevoluciones(GestorPrestamos gestorPrestamos) throws Exception {
 

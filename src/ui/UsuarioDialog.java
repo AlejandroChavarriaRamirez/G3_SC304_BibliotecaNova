@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 import service.GestorUsuarios;
 
 /**
- * Formulario para agregar un usuario a la lista doblemente enlazada.
+ * Formulario para meter un usuario en la lista doblemente enlazada.
  *
  * @author Grupo 3
  */
@@ -30,7 +30,7 @@ public class UsuarioDialog extends javax.swing.JDialog {
         setResizable(false);
         setLocationRelativeTo(parent);
 
-        //La barra queda fija; el disenador no conserva esta propiedad
+        //Se fija aqui porque el disenador no conserva esta propiedad
         jToolBar1.setFloatable(false);
     }
 
@@ -163,7 +163,7 @@ public class UsuarioDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    //Agrega el usuario al final de la lista doble
+    //Lo agrega al final de la lista doble
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
 
         try {
@@ -183,7 +183,7 @@ public class UsuarioDialog extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
-    //Cierra el formulario sin guardar
+    //Sale sin guardar nada
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed

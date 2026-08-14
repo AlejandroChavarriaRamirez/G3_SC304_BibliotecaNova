@@ -12,8 +12,8 @@ import javax.swing.JOptionPane;
 import service.GestorPrestamos;
 
 /**
- * Formulario de la devolución. Calcula los días de atraso y la multa, y apila
- * el movimiento en el historial.
+ * Formulario de la devolución. Cuenta los días de atraso, cobra la multa y
+ * apila el movimiento en el historial.
  *
  * @author Grupo 3
  */
@@ -39,10 +39,10 @@ public class DevolucionDialog extends javax.swing.JDialog {
         setResizable(false);
         setLocationRelativeTo(parent);
 
-        //La barra queda fija; el disenador no conserva esta propiedad
+        //Se fija aqui porque el disenador no conserva esta propiedad
         jToolBar1.setFloatable(false);
 
-        //Si venia una fila seleccionada, el codigo llega listo
+        //Si habia una fila seleccionada, el codigo ya viene puesto
         if (codigoPrestamo != null) {
             txtPrestamo.setText(codigoPrestamo);
         }
@@ -155,7 +155,7 @@ public class DevolucionDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    //Registra la devolucion y apila el movimiento en el historial
+    //Registra la devolucion y la apila en el historial
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
 
         LocalDate fecha;
@@ -193,14 +193,14 @@ public class DevolucionDialog extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
-    //Cierra el formulario sin guardar
+    //Sale sin guardar nada
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**
-     * Libro que se devolvio, o null si no se registro nada. La ventana
-     * principal lo usa para revisar si alguien lo tiene reservado.
+     * El libro que se devolvio, o null si no se registro nada. La ventana
+     * principal lo ocupa para ver si alguien lo tiene reservado.
      */
     public String getLibroDevuelto() {
         return libroDevuelto;

@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 import service.GestorPrestamos;
 
 /**
- * Formulario para encolar una reserva.
+ * Formulario para dejar una reserva en la cola.
  *
  * @author Grupo 3
  */
@@ -31,7 +31,7 @@ public class ReservaDialog extends javax.swing.JDialog {
         setResizable(false);
         setLocationRelativeTo(parent);
 
-        //La barra queda fija; el disenador no conserva esta propiedad
+        //Se fija aqui porque el disenador no conserva esta propiedad
         jToolBar1.setFloatable(false);
 
         lblNota.setText("La reserva se atiende por orden de llegada (FIFO).");
@@ -140,7 +140,7 @@ public class ReservaDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    //Mete la reserva al final de la cola
+    //La reserva entra al final de la fila
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
 
         try {
@@ -160,7 +160,7 @@ public class ReservaDialog extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
-    //Cierra el formulario sin guardar
+    //Sale sin guardar nada
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed

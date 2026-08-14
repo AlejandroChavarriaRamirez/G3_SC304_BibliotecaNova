@@ -9,8 +9,8 @@ import exceptions.BibliotecaException;
 import java.time.LocalDate;
 
 /**
- * Carga unos datos de ejemplo la primera vez que se abre el sistema, para que
- * las tablas no salgan vacias durante la demostracion.
+ * Mete unos datos de ejemplo la primera vez que se abre el sistema, para que
+ * las tablas no salgan vacias en la demostracion.
  *
  * @author Grupo 3
  */
@@ -26,17 +26,17 @@ public class GestorDatosPrueba {
             cargarMovimientos(gestorPrestamos);
 
         } catch (BibliotecaException ex) {
-            //Si los datos de prueba fallan el sistema igual puede arrancar vacio
+            //Si esto falla, el sistema arranca vacio y no pasa nada
             System.out.println("No se pudieron cargar los datos de prueba: " + ex.getMessage());
         }
     }
 
     /*
-     * Los libros NO entran en orden de codigo a proposito. Entran por la mitad
-     * del rango (L-7 primero, despues L-3 y L-10, y asi) para que el arbol
-     * quede repartido a los dos lados y no como una sola rama. Con 13 libros
-     * la altura queda en 4, que es lo minimo posible, y ahi se ve por que la
-     * busqueda en el arbol es O(log n).
+     * Los libros no entran en orden de codigo a proposito, sino por la mitad
+     * del rango: primero L-7, despues L-3 y L-10, y asi. De esa forma el arbol
+     * queda repartido a los dos lados en vez de quedar como una sola rama. Con
+     * 13 libros la altura da 4, que es lo minimo, y ahi se ve por que buscar
+     * cuesta O(log n).
      */
     private static void cargarLibros(GestorLibros gestorLibros) throws BibliotecaException {
 
@@ -57,7 +57,7 @@ public class GestorDatosPrueba {
         agregarLibro(gestorLibros, "L-13", "Sistemas Operativos", "William Stallings", "Computacion", 1);
     }
 
-    //Registra el libro y de una vez sus ejemplares: E-1-1, E-1-2, ...
+    //Mete el libro y de paso sus ejemplares: E-1-1, E-1-2 y asi
     private static void agregarLibro(GestorLibros gestorLibros, String codigo, String titulo,
             String autor, String categoria, int cantidadEjemplares) throws BibliotecaException {
 
@@ -79,40 +79,40 @@ public class GestorDatosPrueba {
     }
 
     /*
-     * Movimientos de ejemplo: quedan 3 prestamos sin devolver (uno de ellos ya
-     * vencido) y 2 devoluciones en la pila, una entregada a tiempo y la otra
-     * con atraso para que se vea el cobro de la multa.
+     * Movimientos de ejemplo. Quedan 3 prestamos sin devolver, uno de ellos ya
+     * vencido, y 2 devoluciones en la pila: una entregada a tiempo y otra con
+     * atraso, para que se vea el cobro de la multa.
      */
     private static void cargarMovimientos(GestorPrestamos gestorPrestamos) throws BibliotecaException {
 
         LocalDate hoy = LocalDate.now();
 
-        //Devolucion 1: entregado a tiempo, sin multa
+        //Entregado a tiempo, sin multa
         Prestamo prestamo1 = gestorPrestamos.registrarPrestamo("2024001", "L-5");
         prestamo1.setFechaPrestamo(hoy.minusDays(5));
         prestamo1.setFechaVencimiento(hoy.plusDays(2));
         gestorPrestamos.registrarDevolucion(prestamo1.getCodigoPrestamo(), hoy);
 
-        //Devolucion 2: entregado 8 dias tarde, se le cobra la multa al usuario
+        //Entregado 8 dias tarde, aqui si se cobra multa
         Prestamo prestamo2 = gestorPrestamos.registrarPrestamo("2024002", "L-3");
         prestamo2.setFechaPrestamo(hoy.minusDays(15));
         prestamo2.setFechaVencimiento(hoy.minusDays(8));
         gestorPrestamos.registrarDevolucion(prestamo2.getCodigoPrestamo(), hoy);
 
-        //Prestamo al dia
+        //Este va al dia
         Prestamo prestamo3 = gestorPrestamos.registrarPrestamo("2024003", "L-1");
         prestamo3.setFechaPrestamo(hoy.minusDays(2));
         prestamo3.setFechaVencimiento(hoy.plusDays(5));
 
-        //Prestamo que ya paso la fecha maxima: sale como Vencido
+        //Este ya paso la fecha maxima, sale como Vencido
         Prestamo prestamo4 = gestorPrestamos.registrarPrestamo("2024004", "L-10");
         prestamo4.setFechaPrestamo(hoy.minusDays(12));
         prestamo4.setFechaVencimiento(hoy.minusDays(5));
 
-        //Prestamo de hoy
+        //Y este es de hoy
         gestorPrestamos.registrarPrestamo("2024001", "L-7");
 
-        //Deja marcados los que ya estan vencidos
+        //Marca los que quedaron vencidos
         gestorPrestamos.actualizarEstados();
     }
 

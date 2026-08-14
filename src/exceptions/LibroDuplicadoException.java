@@ -5,8 +5,7 @@
 package exceptions;
 
 /**
- * Se lanza cuando se intenta insertar en el arbol un codigo de libro que ya
- * esta registrado.
+ * Salta al intentar meter en el arbol un codigo de libro que ya existe.
  *
  * @author Grupo 3
  */

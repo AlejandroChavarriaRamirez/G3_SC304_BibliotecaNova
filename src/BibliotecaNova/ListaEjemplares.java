@@ -54,7 +54,7 @@ public class ListaEjemplares {
     }
 
     /**
-     * Primer ejemplar que este libre para prestar.
+     * El primer ejemplar que este libre.
      */
     public Ejemplar buscarDisponible() {
         NodoEjemplar aux = inicio;
@@ -90,7 +90,7 @@ public class ListaEjemplares {
     }
 
     /**
-     * Recorrido de la lista como texto, para mostrarlo en la interfaz.
+     * La lista en texto, como la muestra la interfaz.
      */
     public String recorrido() {
         String texto = "";

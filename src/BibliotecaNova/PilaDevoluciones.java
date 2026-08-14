@@ -5,8 +5,8 @@
 package BibliotecaNova;
 
 /**
- * Pila LIFO con el historial de devoluciones. La ultima devolucion registrada
- * es la primera que aparece cuando se consulta el historial.
+ * Pila LIFO con el historial de devoluciones: lo ultimo que entra es lo
+ * primero que aparece al consultarlo.
  *
  * @author aleja
  */
@@ -60,7 +60,7 @@ public class PilaDevoluciones {
     }
 
     /**
-     * Suma de todas las multas cobradas por atraso.
+     * Suma las multas de toda la pila.
      */
     public double totalMultas() {
         double total = 0;
@@ -73,7 +73,7 @@ public class PilaDevoluciones {
     }
 
     /**
-     * Multas que acumula un usuario, recorriendo la pila sin desarmarla.
+     * Lo que debe un usuario. Recorre la pila sin desarmarla.
      */
     public double multasDeUsuario(String carne) {
         double total = 0;
@@ -88,7 +88,7 @@ public class PilaDevoluciones {
     }
 
     /**
-     * Matriz con el historial, del movimiento mas reciente al mas antiguo.
+     * El historial en matriz, del movimiento mas nuevo al mas viejo.
      */
     public String[][] obtenerMatriz() {
         String[][] datos = new String[contar()][7];

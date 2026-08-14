@@ -7,7 +7,7 @@ package BibliotecaNova;
 import java.time.LocalDate;
 
 /**
- * Movimiento de devolucion que se guarda en el historial (pila).
+ * Una devolucion, que es lo que se apila en el historial.
  *
  * @author aleja
  */

@@ -21,24 +21,21 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 /**
- * Logica de circulacion: prestamos, devoluciones, reservas y sanciones.
- *
- * Aqui es donde se juntan las tres estructuras del proyecto:
- *   - lista de prestamos activos
- *   - cola FIFO de reservas (el primero que reserva es el primero que recibe)
- *   - pila LIFO con el historial de devoluciones (lo mas reciente arriba)
+ * Toda la circulacion: prestamos, devoluciones, reservas y sanciones. Aqui se
+ * juntan tres estructuras, la lista de prestamos, la cola de reservas y la pila
+ * con el historial de devoluciones.
  *
  * @author Grupo 3
  */
 public class GestorPrestamos {
 
-    // Dias que dura un prestamo
+    // Cuanto dura un prestamo
     public static final int DIAS_PRESTAMO = 7;
 
-    // Lo que se cobra por cada dia de atraso
+    // Lo que se cobra por dia de atraso
     public static final double MULTA_POR_DIA = 500;
 
-    // Atrasos permitidos antes de dejar al usuario como moroso
+    // Atrasos que se aguantan antes de suspender al usuario
     public static final int MAX_ATRASOS = 3;
 
     private ListaPrestamos prestamos;
@@ -48,7 +45,7 @@ public class GestorPrestamos {
     private GestorLibros gestorLibros;
     private GestorUsuarios gestorUsuarios;
 
-    // Consecutivos para los codigos de prestamo y de reserva
+    // De aqui salen los codigos P- y R-
     private int consecutivoPrestamo;
     private int consecutivoReserva;
 
@@ -76,8 +73,8 @@ public class GestorPrestamos {
     }
 
     /**
-     * Deja los consecutivos donde quedaron la ultima vez que se uso el
-     * sistema, para que los codigos no se repitan al volver a abrirlo.
+     * Deja los consecutivos donde quedaron la ultima vez, para no repetir
+     * codigos al volver a abrir.
      */
     public void restaurarConsecutivos(int ultimoPrestamo, int ultimaReserva) {
         this.consecutivoPrestamo = ultimoPrestamo;
@@ -93,8 +90,8 @@ public class GestorPrestamos {
     }
 
     /*
-     * Registra un prestamo. Busca el libro en el arbol, revisa que el usuario
-     * no este moroso y toma el primer ejemplar que este disponible.
+     * Busca el libro en el arbol, revisa que el usuario no este suspendido y le
+     * entrega el primer ejemplar que encuentre libre.
      */
     public Prestamo registrarPrestamo(String carne, String codigoLibro)
             throws DatosInvalidosException, PrestamoNoPermitidoException {
@@ -144,9 +141,8 @@ public class GestorPrestamos {
     }
 
     /*
-     * Registra la devolucion. Calcula los dias de atraso contra la fecha de
-     * vencimiento, cobra la multa, deja libre el ejemplar y apila el
-     * movimiento en el historial.
+     * Cuenta los dias de atraso contra la fecha de vencimiento, cobra la multa,
+     * deja libre el ejemplar y apila el movimiento en el historial.
      */
     public Devolucion registrarDevolucion(String codigoPrestamo, LocalDate fechaDevolucion)
             throws DatosInvalidosException {
@@ -165,7 +161,7 @@ public class GestorPrestamos {
             fechaDevolucion = LocalDate.now();
         }
 
-        //Dias de atraso contra la fecha de vencimiento
+        //Los dias que se paso de la fecha
         int diasAtraso = 0;
         if (fechaDevolucion.isAfter(prestamo.getFechaVencimiento())) {
             diasAtraso = (int) ChronoUnit.DAYS.between(prestamo.getFechaVencimiento(), fechaDevolucion);
@@ -173,7 +169,7 @@ public class GestorPrestamos {
 
         double multa = diasAtraso * MULTA_POR_DIA;
 
-        //Deja el ejemplar libre otra vez
+        //El ejemplar vuelve a quedar libre
         Libro libro = gestorLibros.buscarLibro(prestamo.getCodigoLibro());
         if (libro != null) {
             Ejemplar ejemplar = libro.getListaEjemplares().buscarEjemplar(prestamo.getCodigoEjemplar());
@@ -183,7 +179,7 @@ public class GestorPrestamos {
             libro.setCantidadDisponible(libro.getListaEjemplares().contarDisponibles());
         }
 
-        //Sancion: se le suma el atraso al usuario y con mas de tres queda suspendido
+        //Se le anota el atraso; con tres el usuario queda suspendido
         Usuario usuario = gestorUsuarios.buscarUsuario(prestamo.getCarneUsuario());
         if (usuario != null && diasAtraso > 0) {
             usuario.setAtrasos(usuario.getAtrasos() + 1);
@@ -203,15 +199,15 @@ public class GestorPrestamos {
         devolucion.setDiasAtraso(diasAtraso);
         devolucion.setMulta(multa);
 
-        //El historial es una pila, lo ultimo que entra queda de primero
+        //El historial es una pila: lo ultimo que entra queda arriba
         devoluciones.apilar(devolucion);
 
         return devolucion;
     }
 
     /*
-     * Deja una reserva en la cola. Solo tiene sentido cuando el libro no tiene
-     * ejemplares libres en este momento.
+     * Encola una reserva. Tiene sentido cuando el libro no tiene ejemplares
+     * libres en ese momento.
      */
     public Reserva registrarReserva(String carne, String codigoLibro)
             throws DatosInvalidosException, PrestamoNoPermitidoException {
@@ -246,8 +242,8 @@ public class GestorPrestamos {
     }
 
     /**
-     * Atiende la reserva que lleva mas tiempo esperando y le hace el prestamo,
-     * si ya hay un ejemplar libre.
+     * Le hace el prestamo al que lleva mas tiempo esperando, siempre que haya
+     * un ejemplar libre.
      */
     public Prestamo atenderPrimeraReserva()
             throws DatosInvalidosException, PrestamoNoPermitidoException {
@@ -258,7 +254,7 @@ public class GestorPrestamos {
             throw new DatosInvalidosException("La cola de reservas esta vacia.");
         }
 
-        //Si el prestamo no se puede hacer, la reserva se queda en la cola
+        //Si el prestamo falla, la reserva no se saca de la cola
         Prestamo prestamo = registrarPrestamo(reserva.getCarneUsuario(), reserva.getCodigoLibro());
 
         reservas.desencolar();
@@ -266,10 +262,9 @@ public class GestorPrestamos {
     }
 
     /**
-     * Atiende la reserva del primer usuario que estaba esperando ese libro.
-     * Se llama despues de una devolucion, que es cuando queda un ejemplar
-     * libre. Si el prestamo no se puede hacer, la reserva no se saca de la
-     * cola.
+     * Atiende al primero que estaba esperando ese libro. Se llama despues de
+     * una devolucion, que es cuando queda un ejemplar libre. Si el prestamo no
+     * se puede hacer, la reserva se queda donde estaba.
      */
     public Prestamo atenderReservaDeLibro(String codigoLibro)
             throws DatosInvalidosException, PrestamoNoPermitidoException {
@@ -287,15 +282,15 @@ public class GestorPrestamos {
     }
 
     /**
-     * Revisa si algun usuario esta esperando ese libro en la cola.
+     * Mira si alguien esta esperando ese libro en la cola.
      */
     public Reserva reservaPendienteDe(String codigoLibro) {
         return reservas.buscarPorLibro(codigoLibro);
     }
 
     /*
-     * Marca como vencidos los prestamos que ya pasaron la fecha maxima de
-     * devolucion. Se llama cada vez que se refresca la pantalla.
+     * Marca como vencidos los que ya pasaron la fecha maxima. Se llama cada vez
+     * que se refresca la pantalla.
      */
     public void actualizarEstados() {
 
@@ -316,8 +311,8 @@ public class GestorPrestamos {
     }
 
     /**
-     * Reporte de sanciones: recorre la lista doble de usuarios y arma el
-     * detalle de atrasos, multas y estado de cada uno.
+     * Reporte de sanciones. Recorre la lista doble y arma el detalle de
+     * atrasos, multas y estado de cada usuario.
      */
     public String calcularSanciones() {
 

@@ -1,71 +1,62 @@
 BIBLIOTECA NOVA - INTERFAZ GRAFICA (Java Swing)
 SC-304 Estructura de Datos - Grupo 3
 
-===============================================================================
+
 1. COMO SE EJECUTA
-===============================================================================
+------------------
 
-Clase principal:  BibliotecaNova.Principal   (ya configurada en el proyecto)
+La clase principal es BibliotecaNova.Principal y ya viene configurada en el
+proyecto, asi que basta con darle Run.
 
-El sistema no pide usuario ni contrasena: al arrancar abre directamente la
-ventana principal (ui.Principal). El main crea los gestores una sola vez y se
-los pasa a la ventana.
+No hay login. El programa abre de una vez en la ventana principal. El main
+arma los gestores una sola vez y se los pasa a la ventana, porque las
+estructuras viven en memoria mientras la aplicacion este abierta.
 
-La primera vez se cargan datos de prueba (5 libros, 8 ejemplares y 4 usuarios)
-para que las tablas no salgan vacias. De ahi en adelante se lee lo que quedo
-guardado de la sesion anterior.
+La primera vez entran datos de ejemplo: 13 libros con 20 ejemplares, 4
+usuarios, 5 prestamos (tres sin devolver, uno de ellos vencido) y 2
+devoluciones. Despues de eso el programa lee lo que quedo guardado la vez
+anterior.
 
-===============================================================================
-2. ORGANIZACION DEL CODIGO
-===============================================================================
 
-Se siguio la misma estructura del proyecto QuickDelivery (Cliente-Servidor):
+2. COMO ESTA ORGANIZADO EL CODIGO
+---------------------------------
+
+Se armo con la misma division del proyecto QuickDelivery de Cliente-Servidor:
 
     src/BibliotecaNova/   modelo y estructuras de datos
-    src/service/          logica del negocio (gestores)
-    src/exceptions/       excepciones propias del sistema
+    src/service/          logica del negocio
+    src/exceptions/       excepciones propias
     src/ui/               ventanas Swing
-    src/imagenes/         logo de la biblioteca
+    src/imagenes/         logo
 
-Paquete BibliotecaNova (estructuras):
-    ArbolLibros / NodoArbol .......... arbol binario de busqueda del catalogo
-    Libro, Ejemplar .................. datos del catalogo
-    ListaEjemplares / NodoEjemplar ... lista simple de ejemplares por libro
-    Usuario, ListaUsuarios / NodoUsuario ... lista DOBLEMENTE enlazada
-    Prestamo, ListaPrestamos / NodoPrestamo ... lista simple de prestamos
-    Reserva, ColaReservas / NodoReserva ....... cola FIFO
-    Devolucion, PilaDevoluciones / NodoDevolucion ... pila LIFO
+En BibliotecaNova estan las estructuras:
 
-Paquete service (gestores):
-    GestorLibros ...... registra libros y ejemplares, busca en el arbol
-    GestorUsuarios .... registra, busca y elimina usuarios de la lista doble
-    GestorPrestamos ... prestamos, devoluciones, reservas y sanciones
-    GestorArchivos .... guarda y carga la informacion en archivos de texto
-    GestorDatosPrueba . carga los datos de ejemplo la primera vez
+    ArbolLibros y NodoArbol           arbol binario de busqueda del catalogo
+    Libro, Ejemplar                   datos del catalogo
+    ListaEjemplares, NodoEjemplar     lista simple, los ejemplares de un libro
+    Usuario, ListaUsuarios            lista doblemente enlazada
+    Prestamo, ListaPrestamos          lista simple
+    Reserva, ColaReservas             cola FIFO
+    Devolucion, PilaDevoluciones      pila LIFO
 
-Paquete exceptions:
-    BibliotecaException (base)
-      +- DatosInvalidosException
-      +- LibroDuplicadoException
-      +- UsuarioDuplicadoException
-      +- PrestamoNoPermitidoException
+En service estan los gestores, que son los que mueven esas estructuras:
+GestorLibros trabaja el arbol; GestorUsuarios la lista doble; GestorPrestamos
+maneja prestamos, devoluciones, reservas y sanciones; GestorArchivos lee y
+escribe los datos en disco y GestorDatosPrueba carga el ejemplo inicial.
 
-Paquete ui (ventanas):
-    Principal ......... ventana principal con 5 pestanas
-    LibroDialog ....... registrar libro
-    EjemplarDialog .... agregar ejemplar al libro seleccionado
-    UsuarioDialog ..... registrar usuario
-    PrestamoDialog .... registrar prestamo (si no hay ejemplar ofrece reservar)
-    DevolucionDialog .. registrar devolucion y calcular la multa
-    ReservaDialog ..... encolar una reserva
-    AcercaDialog ...... datos del proyecto
+Las excepciones cuelgan todas de BibliotecaException: DatosInvalidosException,
+LibroDuplicadoException, UsuarioDuplicadoException y
+PrestamoNoPermitidoException. Asi se pueden atrapar de un solo golpe.
 
-===============================================================================
-3. EL MENU DEL ENUNCIADO
-===============================================================================
+Las ventanas del paquete ui son Principal (la de las pestanas) y siete
+dialogos: libro, ejemplar, usuario, prestamo, devolucion, reserva y acerca de.
 
-Las once opciones que pide el enunciado estan en la barra de menus, y las
-mismas acciones estan repetidas en los botones de cada pestana:
+
+3. EL MENU QUE PIDE EL ENUNCIADO
+--------------------------------
+
+Las once opciones estan en la barra de menus, y las mismas acciones tambien
+estan como botones dentro de cada pestana:
 
     Archivo      a) Registrar libro
                  b) Registrar usuario
@@ -79,115 +70,103 @@ mismas acciones estan repetidas en los botones de cada pestana:
                  i) Ver devoluciones recientes
                  j) Calcular sanciones
 
-===============================================================================
-4. QUE MUESTRA CADA PESTANA
-===============================================================================
 
-Catalogo (arbol)
-    Tabla con el recorrido INORDEN del arbol, por eso sale ordenada por codigo.
-    Botones: registrar libro, agregar ejemplar, buscar en el arbol,
-             ver ejemplares del libro, y los tres recorridos: inorden,
-             preorden y postorden.
+4. LAS PESTANAS
+---------------
 
-Usuarios (lista doble)
-    Tabla con la lista de usuarios.
-    Botones: registrar, buscar, eliminar, reactivar usuario suspendido y
-             recorrido inverso (usa el enlace anterior de la lista doble).
+Catalogo (arbol). La tabla sale del recorrido inorden, por eso aparece
+ordenada por codigo. Ahi se registra un libro, se le agregan ejemplares, se
+busca en el arbol, se ven los ejemplares de un libro y se pueden pedir los
+tres recorridos: inorden, preorden y postorden.
 
-Prestamos
-    Tabla con todos los prestamos y su estado: activo, vencido o devuelto.
-    Botones: registrar prestamo, registrar devolucion y calcular sanciones.
+Usuarios (lista doble). Registrar, buscar, eliminar y reactivar a alguien que
+quedo suspendido. El boton de recorrido inverso va del final hacia el inicio
+usando el enlace anterior, que es para lo que sirve la lista doble.
 
-Reservas (cola FIFO)
-    Tabla con la cola en el orden en que va a ser atendida (columna Turno).
-    Botones: registrar reserva, atender siguiente (desencolar) y ver el frente.
+Prestamos. Muestra todos con su estado: activo, vencido o devuelto. Desde ahi
+se presta, se devuelve y se pide el calculo de sanciones.
 
-Devoluciones (pila LIFO)
-    Tabla con el historial, el movimiento mas reciente aparece de primero.
-    Botones: ver el tope, desapilar y total de multas cobradas.
+Reservas (cola FIFO). La columna Turno dice en que orden se van a atender. Se
+puede encolar una reserva, atender la siguiente o solo ver quien va de primero
+sin sacarlo.
 
-Los indicadores de arriba y la barra de estado se recalculan recorriendo las
-estructuras cada vez que se guarda algo.
+Devoluciones (pila LIFO). El historial, con lo mas reciente hasta arriba. Se
+ve el tope, se desapila y se pide el total de multas.
 
-===============================================================================
+Los indicadores de arriba y la barra de estado no guardan contadores aparte:
+cada vez que se guarda algo se vuelven a recorrer las estructuras.
+
+
 5. REGLAS DEL NEGOCIO
-===============================================================================
+---------------------
 
-    Plazo del prestamo ............ 7 dias   (GestorPrestamos.DIAS_PRESTAMO)
-    Multa por dia de atraso ....... 500      (GestorPrestamos.MULTA_POR_DIA)
-    Atrasos para ser suspendido ... 3        (GestorPrestamos.MAX_ATRASOS)
+    Plazo del prestamo            7 dias   (GestorPrestamos.DIAS_PRESTAMO)
+    Multa por dia de atraso       500      (GestorPrestamos.MULTA_POR_DIA)
+    Atrasos para ser suspendido   3        (GestorPrestamos.MAX_ATRASOS)
 
-    - Un usuario suspendido no puede llevar libros ni reservar. Se reactiva a
-      mano con el boton "Reactivar usuario", que ademas le borra los atrasos.
-    - Si el libro no tiene ejemplares libres, el sistema ofrece encolar la
-      reserva. Las reservas se atienden por orden de llegada.
-    - Al devolver, el ejemplar vuelve a quedar Disponible, se calculan los dias
-      de atraso contra la fecha de vencimiento y el movimiento se apila en el
-      historial. Si ese libro tenia una reserva pendiente, el sistema pregunta
-      si se le asigna al primer usuario de la cola.
-    - Los prestamos que pasan la fecha maxima de devolucion quedan marcados
-      como Vencido cada vez que se refresca la pantalla.
+Un usuario suspendido no puede llevar libros ni reservar. Se reactiva a mano
+con el boton "Reactivar usuario", que de paso le borra los atrasos.
 
-===============================================================================
-6. GUARDADO DE LA INFORMACION
-===============================================================================
+Cuando un libro no tiene ejemplares libres, el sistema ofrece encolar la
+reserva. Se atienden por orden de llegada.
 
-Los datos no se pierden al cerrar el programa. Se guardan en archivos de texto
-dentro de la carpeta "datos", que se crea sola al lado del proyecto:
+Al devolver, el ejemplar vuelve a quedar disponible, se cuentan los dias de
+atraso contra la fecha de vencimiento y el movimiento se apila en el
+historial. Si ese libro tenia a alguien esperando en la cola, el sistema
+pregunta si se lo asigna.
 
-    datos/libros.txt ......... codigo;titulo;autor;categoria
-    datos/ejemplares.txt ..... codigoLibro;codigoEjemplar;estado
-    datos/usuarios.txt ....... carne;nombre;carrera;telefono;estado;atrasos
-    datos/prestamos.txt ...... codigo;carne;libro;ejemplar;fecha;vence;estado
-    datos/reservas.txt ....... codigo;carne;libro;fecha
-    datos/devoluciones.txt ... prestamo;carne;libro;ejemplar;fecha;dias;multa
-    datos/contadores.txt ..... ultimo numero usado en P- y en R-
+Los prestamos que ya pasaron la fecha maxima quedan marcados como vencidos
+cada vez que se refresca la pantalla.
 
-Como funciona:
 
-    - Se graba cada vez que se guarda algo en el sistema y tambien al salir,
-      sea por el boton Salir, por el menu o por la X de la ventana.
-    - Al abrir, si la carpeta "datos" existe se vuelven a armar las
-      estructuras leyendo linea por linea; si no existe, se cargan los datos
-      de ejemplo.
-    - No se usa ninguna coleccion de Java: cada linea se vuelve a insertar en
-      el arbol, en la lista doble, en la cola o en la pila.
+6. DONDE QUEDA GUARDADA LA INFORMACION
+--------------------------------------
 
-Detalles que importan para que todo quede igual que antes:
+Los datos no se pierden al cerrar. Quedan en archivos de texto dentro de la
+carpeta "datos", que se crea sola al lado del proyecto:
 
-    - Los libros se guardan en PREORDEN. Al leerlos entran al arbol en el
-      mismo orden en que se insertaron la primera vez, entonces el arbol
-      queda con la misma forma y la misma altura.
-    - Las reservas se guardan desde el frente de la cola, asi el turno de
-      cada usuario se respeta.
-    - Las devoluciones se guardan desde el tope de la pila. Al cargarlas se
-      pasan primero a una pila auxiliar para que no queden al reves.
-    - Los consecutivos de prestamo y reserva se guardan tambien, para que los
-      codigos no se repitan al volver a abrir el sistema.
+    datos/libros.txt         codigo;titulo;autor;categoria
+    datos/ejemplares.txt     codigoLibro;codigoEjemplar;estado
+    datos/usuarios.txt       carne;nombre;carrera;telefono;estado;atrasos
+    datos/prestamos.txt      codigo;carne;libro;ejemplar;fecha;vence;estado
+    datos/reservas.txt       codigo;carne;libro;fecha
+    datos/devoluciones.txt   prestamo;carne;libro;ejemplar;fecha;dias;multa
+    datos/contadores.txt     ultimo numero usado en P- y en R-
 
-Si se quiere empezar de cero, se borra la carpeta "datos" y la proxima vez el
-sistema arranca otra vez con los datos de ejemplo.
+Se graba cada vez que se guarda algo y tambien al salir, sea por el boton, por
+el menu o por la X de la ventana. Al abrir, si la carpeta existe se vuelven a
+armar las estructuras leyendo linea por linea; si no existe, entran los datos
+de ejemplo. En ningun momento se usa una coleccion de Java: cada linea se
+inserta de nuevo en el arbol, en la lista, en la cola o en la pila.
 
-===============================================================================
-7. NOTAS
-===============================================================================
+Hay tres cosas que se cuidaron para que todo quede igual que antes de cerrar.
+Los libros se guardan en preorden, no en inorden, porque asi vuelven a entrar
+al arbol en el mismo orden en que se insertaron y el arbol conserva su forma y
+su altura; si se guardaran ordenados, al releerlos quedaria una sola rama. Las
+reservas se escriben desde el frente de la cola para no perder el turno de
+nadie. Y las devoluciones se escriben desde el tope de la pila, entonces al
+cargarlas hay que pasarlas primero por una pila auxiliar, si no quedan al
+reves. Los consecutivos de prestamo y reserva tambien se guardan, para no
+repetir codigos la proxima vez.
 
-- Ojo al editar en la pestana Design: el editor visual regenera initComponents
-  y descarta algunas propiedades (los gaps de los layouts y el floatable de las
-  barras). Por eso el floatable se fija por codigo en el constructor, en el
-  metodo fijarBarras() de Principal, y el logo va como icono del titulo.
+Para empezar de cero se borra la carpeta "datos". La proxima corrida vuelve a
+arrancar con el ejemplo.
 
-- Las ocho ventanas estan hechas con el disenador visual de NetBeans. Cada
-  una tiene su archivo .form al lado del .java:
 
-      Principal.java + Principal.form
-      LibroDialog, EjemplarDialog, UsuarioDialog, PrestamoDialog,
-      DevolucionDialog, ReservaDialog y AcercaDialog, cada uno con su .form
+7. NOTAS SOBRE EL DISENADOR
+---------------------------
 
-  Para editarlas se abre el archivo en NetBeans y se usa la pestana "Design".
-  El codigo de initComponents lo regenera el editor, por eso no se toca a
-  mano (esta dentro de los bloques //GEN-BEGIN y //GEN-END).
+Las ocho ventanas estan hechas con el disenador visual de NetBeans, cada una
+con su archivo .form al lado del .java. Para modificarlas se abre el archivo y
+se usa la pestana Design. El codigo de initComponents lo regenera el editor,
+por eso no se toca a mano: esta entre los bloques //GEN-BEGIN y //GEN-END.
 
-- Los administradores de disposicion que se usan son BorderLayout,
-  GridBagLayout y GridLayout, todos soportados por el disenador. En el panel
-  "Navigator" de NetBeans se ve el arbol completo de componentes.
+Cuidado con una cosa. Cuando uno mueve algo en Design, el editor vuelve a
+generar initComponents y en el camino bota algunas propiedades, como los gaps
+de los layouts y el floatable de las barras. Por eso el floatable se fija por
+codigo en el constructor, en fijarBarras() de Principal, y el logo se puso
+como icono del titulo en vez de ir en una celda aparte del layout.
+
+Los layouts que se usan son BorderLayout, GridBagLayout y GridLayout, que el
+disenador maneja sin problema. El arbol completo de componentes se ve en el
+panel Navigator.

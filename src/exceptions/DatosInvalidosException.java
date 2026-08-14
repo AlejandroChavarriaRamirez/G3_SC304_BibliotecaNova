@@ -5,7 +5,7 @@
 package exceptions;
 
 /**
- * Se lanza cuando el usuario deja campos vacios o digita datos que no sirven.
+ * Salta cuando dejan campos vacios o digitan algo que no sirve.
  *
  * @author Grupo 3
  */

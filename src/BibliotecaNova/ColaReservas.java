@@ -5,8 +5,8 @@
 package BibliotecaNova;
 
 /**
- * Cola FIFO de reservas. El primer usuario que reserva un libro es el primero
- * que lo recibe cuando el ejemplar regresa a la biblioteca.
+ * Cola FIFO de reservas: el que reserva primero es el que recibe el libro
+ * cuando el ejemplar vuelve a la biblioteca.
  *
  * @author aleja
  */
@@ -29,7 +29,7 @@ public class ColaReservas {
     }
 
     /**
-     * Encola al final de la fila.
+     * Mete la reserva al final de la fila.
      */
     public void encolar(Reserva reserva) {
         NodoReserva nuevo = new NodoReserva();
@@ -45,7 +45,7 @@ public class ColaReservas {
     }
 
     /**
-     * Saca la reserva que lleva mas tiempo esperando.
+     * Saca la que lleva mas tiempo esperando.
      */
     public Reserva desencolar() {
         if (vacia()) {
@@ -67,9 +67,9 @@ public class ColaReservas {
     }
 
     /**
-     * Saca de la fila la reserva que lleva mas tiempo esperando ese libro,
-     * respetando el orden de llegada de las demas. Se usa cuando devuelven un
-     * ejemplar y hay que asignarselo al primer usuario que lo reservo.
+     * Saca de la fila la reserva mas vieja de ese libro y deja las demas en su
+     * orden. Se llama al devolver un ejemplar, cuando hay que entregarselo al
+     * usuario que lo pidio primero.
      */
     public Reserva desencolarPorLibro(String codigoLibro) {
         if (vacia()) {
@@ -92,7 +92,7 @@ public class ColaReservas {
     }
 
     /**
-     * Devuelve la primera reserva de ese libro sin sacarla de la cola.
+     * Consulta la primera reserva de ese libro, sin sacarla.
      */
     public Reserva buscarPorLibro(String codigoLibro) {
         NodoReserva aux = frente;
@@ -116,7 +116,7 @@ public class ColaReservas {
     }
 
     /**
-     * Matriz con las reservas en el orden en que van a ser atendidas.
+     * Las reservas en matriz, en el orden en que se van a atender.
      */
     public String[][] obtenerMatriz() {
         String[][] datos = new String[contar()][5];

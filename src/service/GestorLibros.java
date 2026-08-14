@@ -11,8 +11,8 @@ import exceptions.DatosInvalidosException;
 import exceptions.LibroDuplicadoException;
 
 /**
- * Logica del catalogo. Los libros viven en un arbol binario de busqueda
- * ordenado por codigo, por eso la busqueda es O(log n).
+ * Logica del catalogo. Los libros van en un arbol binario de busqueda
+ * ordenado por codigo, de ahi que buscar cueste O(log n).
  *
  * @author Grupo 3
  */
@@ -43,7 +43,7 @@ public class GestorLibros {
             throw new DatosInvalidosException("El autor del libro es obligatorio.");
         }
 
-        //Revisa si ese codigo ya esta en el arbol
+        //Si ese codigo ya esta en el arbol no se puede repetir
         if (arbol.existeLibro(codigo.trim())) {
             throw new LibroDuplicadoException("Ya existe un libro con el codigo " + codigo.trim() + ".");
         }
@@ -86,8 +86,7 @@ public class GestorLibros {
     }
 
     /**
-     * Codigo que le toca al proximo libro, siguiendo el consecutivo:
-     * L-1, L-2, L-3 ...
+     * El codigo que le toca al proximo libro: L-1, L-2, L-3 y asi.
      */
     public String siguienteCodigo() {
         return "L-" + (arbol.numeroMaximo() + 1);

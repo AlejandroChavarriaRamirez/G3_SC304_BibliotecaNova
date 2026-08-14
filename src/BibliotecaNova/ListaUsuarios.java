@@ -5,9 +5,9 @@
 package BibliotecaNova;
 
 /**
- * Lista doblemente enlazada de usuarios de la biblioteca.
- * Se usa lista doble porque el modulo de sanciones necesita recorrer los
- * registros en los dos sentidos cuando se revisan los atrasos.
+ * Lista doblemente enlazada con los usuarios de la biblioteca. Cada nodo
+ * apunta al siguiente y al anterior, entonces se puede recorrer en los dos
+ * sentidos.
  *
  * @author aleja
  */
@@ -89,7 +89,7 @@ public class ListaUsuarios {
     }
 
     /**
-     * Cuenta los usuarios que quedaron suspendidos por atrasos.
+     * Cuantos usuarios quedaron suspendidos por atrasos.
      */
     public int contarSuspendidos() {
         int total = 0;
@@ -104,8 +104,8 @@ public class ListaUsuarios {
     }
 
     /**
-     * Devuelve los usuarios en una matriz para poder llenar la tabla de la
-     * interfaz sin usar colecciones de Java.
+     * Pasa los usuarios a una matriz para llenar la tabla, sin recurrir a
+     * ninguna coleccion de Java.
      */
     public String[][] obtenerMatriz() {
         String[][] datos = new String[contar()][6];
@@ -126,7 +126,7 @@ public class ListaUsuarios {
     }
 
     /**
-     * Recorrido de atras hacia adelante, aprovechando el doble enlace.
+     * Recorre del final al inicio, que es para lo que sirve el doble enlace.
      */
     public String recorridoInverso() {
         String texto = "";

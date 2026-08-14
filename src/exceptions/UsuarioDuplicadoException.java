@@ -5,7 +5,7 @@
 package exceptions;
 
 /**
- * Se lanza cuando se intenta registrar un carne que ya existe en la lista.
+ * Salta al intentar registrar un carne que ya esta en la lista.
  *
  * @author Grupo 3
  */

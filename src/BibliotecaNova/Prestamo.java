@@ -7,7 +7,7 @@ package BibliotecaNova;
 import java.time.LocalDate;
 
 /**
- * Prestamo de un ejemplar a un usuario.
+ * El prestamo de un ejemplar a un usuario.
  *
  * @author aleja
  */

@@ -10,8 +10,7 @@ import exceptions.DatosInvalidosException;
 import exceptions.UsuarioDuplicadoException;
 
 /**
- * Logica de los usuarios de la biblioteca. Se guardan en una lista doblemente
- * enlazada.
+ * Logica de los usuarios. Se guardan en una lista doblemente enlazada.
  *
  * @author Grupo 3
  */
@@ -39,7 +38,7 @@ public class GestorUsuarios {
             throw new DatosInvalidosException("El nombre es obligatorio.");
         }
 
-        //Revisa si ese carne ya existe
+        //Ese carne no se puede repetir
         if (lista.buscarUsuario(carne.trim()) != null) {
             throw new UsuarioDuplicadoException("Ya existe un usuario con el carne " + carne.trim() + ".");
         }
@@ -71,8 +70,8 @@ public class GestorUsuarios {
     }
 
     /**
-     * Reactiva manualmente a un usuario suspendido: lo deja activo otra vez y
-     * le borra los atrasos acumulados.
+     * Levanta la suspension de un usuario: lo deja activo y le borra los
+     * atrasos que llevaba.
      */
     public Usuario reactivarUsuario(String carne) throws DatosInvalidosException {
 

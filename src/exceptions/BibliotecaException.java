@@ -5,14 +5,9 @@
 package exceptions;
 
 /**
- * Excepcion base de todo el sistema Biblioteca Nova.
- *
- * De ella heredan las demas excepciones propias del proyecto. Sirve para poder
- * atrapar de un solo golpe cualquier error del negocio:
- *
- *     catch (BibliotecaException ex) { ... }
- *
- * y tambien para distinguirlos de los errores tecnicos de Java.
+ * Excepcion base del sistema. De ella salen las demas excepciones del
+ * proyecto, asi con un solo catch (BibliotecaException ex) se atrapa cualquier
+ * error del negocio y quedan aparte de los errores tecnicos de Java.
  *
  * @author Grupo 3
  */
@@ -24,9 +19,8 @@ public class BibliotecaException extends Exception {
     }
 
     /*
-     * Este constructor guarda el error original que provoco la falla, para no
-     * perder el motivo real cuando un error tecnico se convierte en un error
-     * del negocio.
+     * Este otro guarda el error que provoco la falla, para no perder el motivo
+     * real cuando un error tecnico termina convertido en uno del negocio.
      */
     public BibliotecaException(String message, Throwable causa) {
         super(message, causa);

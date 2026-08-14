@@ -7,7 +7,7 @@ package BibliotecaNova;
 import java.time.LocalDate;
 
 /**
- * Reserva de un libro que en este momento no tiene ejemplares disponibles.
+ * Reserva de un libro que por el momento no tiene ejemplares libres.
  *
  * @author aleja
  */

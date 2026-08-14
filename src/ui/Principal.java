@@ -18,14 +18,9 @@ import service.GestorPrestamos;
 import service.GestorUsuarios;
 
 /**
- * Ventana principal del sistema.
- *
- * Cada pestaña muestra una de las estructuras del proyecto:
- *   Catálogo      -> árbol binario de búsqueda de libros
- *   Usuarios      -> lista doblemente enlazada
- *   Préstamos     -> lista simple de préstamos
- *   Reservas      -> cola FIFO
- *   Devoluciones  -> pila LIFO
+ * Ventana principal. Cada pestaña corresponde a una estructura: el catálogo
+ * es el árbol de búsqueda, los usuarios van en la lista doble, los préstamos
+ * en una lista simple, las reservas en la cola y las devoluciones en la pila.
  *
  * @author Grupo 3
  */
@@ -62,10 +57,10 @@ public class Principal extends javax.swing.JFrame {
         setIconImage(new javax.swing.ImageIcon(
                 getClass().getResource("/imagenes/LogoBibliotecaNova.png")).getImage());
 
-        //Las barras de herramientas quedan fijas, no se pueden arrastrar
+        //Para que las barras no se puedan arrastrar
         fijarBarras();
 
-        //Si cierran con la X tambien se guarda la informacion
+        //Cerrando con la X tambien se guarda
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -79,9 +74,9 @@ public class Principal extends javax.swing.JFrame {
     }
 
     /*
-     * Esto va aparte del codigo del disenador: el editor visual vuelve a
-     * generar initComponents cada vez que se mueve algo en la pestana Design,
-     * y ahi se pierde la propiedad floatable.
+     * Va aparte del codigo del disenador. Cada vez que uno mueve algo en la
+     * pestana Design el editor regenera initComponents y ahi se pierde el
+     * floatable.
      */
     private void fijarBarras() {
         tbCatalogo.setFloatable(false);
@@ -92,7 +87,7 @@ public class Principal extends javax.swing.JFrame {
         tbGeneral.setFloatable(false);
     }
 
-    //Arma las columnas de cada tabla
+    //Los titulos de columna de cada tabla
     private void cargarTablas() {
 
         String[] columnasLibros = {"Código", "Título", "Autor", "Categoría", "Ejemplares", "Disponibles"};
@@ -142,12 +137,12 @@ public class Principal extends javax.swing.JFrame {
     }
 
     /**
-     * Vuelve a recorrer las estructuras y refresca las tablas y los
-     * indicadores. Se llama cada vez que un diálogo guarda algo.
+     * Recorre otra vez las estructuras y refresca tablas e indicadores. Se
+     * llama cada vez que un diálogo guarda algo.
      */
     public void actualizarTablas() {
 
-        //Marca como vencidos los prestamos que pasaron la fecha de devolucion
+        //De paso marca los prestamos que ya se pasaron de la fecha
         gestorPrestamos.actualizarEstados();
 
         llenarTabla(modeloLibros, gestorLibros.obtenerMatrizLibros());
@@ -169,19 +164,19 @@ public class Principal extends javax.swing.JFrame {
                 + "   |   Usuarios suspendidos: " + gestorUsuarios.contarSuspendidos()
                 + "   |   Devoluciones en la pila: " + gestorPrestamos.getDevoluciones().contar());
 
-        //Cada vez que cambia algo se deja guardado en los archivos
+        //Cada cambio queda guardado en los archivos
         guardarDatos();
     }
 
     /**
-     * Escribe las estructuras en la carpeta "datos" para que la informacion
-     * siga estando la proxima vez que se abra el sistema.
+     * Escribe las estructuras en la carpeta "datos", asi la informacion sigue
+     * ahi la proxima vez que se abra el sistema.
      */
     private void guardarDatos() {
         GestorArchivos.guardar(gestorLibros, gestorUsuarios, gestorPrestamos);
     }
 
-    //Pasa una matriz a la tabla
+    //Vuelca una matriz en la tabla
     private void llenarTabla(DefaultTableModel modelo, String[][] datos) {
         modelo.setRowCount(0);
         for (int fila = 0; fila < datos.length; fila++) {
@@ -189,7 +184,7 @@ public class Principal extends javax.swing.JFrame {
         }
     }
 
-    //Muestra textos largos, como los recorridos, dentro de un area con scroll
+    //Para los textos largos, como los recorridos, con su scroll
     private void mostrarTexto(String titulo, String texto) {
 
         if (texto == null || texto.trim().isEmpty()) {
@@ -207,7 +202,7 @@ public class Principal extends javax.swing.JFrame {
                 JOptionPane.INFORMATION_MESSAGE);
     }
 
-    //Devuelve el valor de la primera columna de la fila seleccionada
+    //El valor de la primera columna de la fila que este seleccionada
     private String codigoSeleccionado(javax.swing.JTable tabla) {
         int fila = tabla.getSelectedRow();
         if (fila < 0) {
@@ -847,14 +842,14 @@ public class Principal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    //Abre el formulario para registrar un libro en el arbol
+    //Formulario para meter un libro al arbol
     private void btnRegistrarLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarLibroActionPerformed
         LibroDialog dialogo = new LibroDialog(this, true, gestorLibros);
         dialogo.setVisible(true);
         actualizarTablas();
     }//GEN-LAST:event_btnRegistrarLibroActionPerformed
 
-    //Agrega un ejemplar al libro seleccionado en la tabla
+    //Le agrega un ejemplar al libro que este seleccionado
     private void btnAgregarEjemplarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarEjemplarActionPerformed
 
         String codigo = codigoSeleccionado(tblLibros);
@@ -869,7 +864,7 @@ public class Principal extends javax.swing.JFrame {
         actualizarTablas();
     }//GEN-LAST:event_btnAgregarEjemplarActionPerformed
 
-    //Busca un libro recorriendo el arbol binario de busqueda
+    //Busca un libro bajando por el arbol
     private void btnBuscarLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarLibroActionPerformed
 
         String codigo = JOptionPane.showInputDialog(this, "Digite el código del libro:", "Buscar en el árbol",
@@ -897,7 +892,7 @@ public class Principal extends javax.swing.JFrame {
                 + libro.getListaEjemplares().recorrido());
     }//GEN-LAST:event_btnBuscarLibroActionPerformed
 
-    //Recorre la lista de ejemplares del libro seleccionado
+    //Los ejemplares del libro seleccionado
     private void btnVerEjemplaresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerEjemplaresActionPerformed
 
         String codigo = codigoSeleccionado(tblLibros);
@@ -911,30 +906,30 @@ public class Principal extends javax.swing.JFrame {
         mostrarTexto("Ejemplares de " + libro.getTitulo(), libro.getListaEjemplares().recorrido());
     }//GEN-LAST:event_btnVerEjemplaresActionPerformed
 
-    //Muestra el recorrido inorden del arbol, que sale ordenado por codigo
+    //El inorden, que sale ordenado por codigo
     private void btnRecorridoInordenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecorridoInordenActionPerformed
         mostrarTexto("Recorrido inorden del árbol  (altura: " + gestorLibros.alturaArbol() + ")",
                 gestorLibros.recorridoInorden());
     }//GEN-LAST:event_btnRecorridoInordenActionPerformed
 
-    //Recorrido preorden: raiz, izquierda, derecha
+    //Preorden: raiz, izquierda y derecha
     private void btnRecorridoPreordenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecorridoPreordenActionPerformed
         mostrarTexto("Recorrido preorden del árbol", gestorLibros.recorridoPreorden());
     }//GEN-LAST:event_btnRecorridoPreordenActionPerformed
 
-    //Recorrido postorden: izquierda, derecha, raiz
+    //Postorden: izquierda, derecha y raiz
     private void btnRecorridoPostordenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecorridoPostordenActionPerformed
         mostrarTexto("Recorrido postorden del árbol", gestorLibros.recorridoPostorden());
     }//GEN-LAST:event_btnRecorridoPostordenActionPerformed
 
-    //Abre el formulario para registrar un usuario en la lista doble
+    //Formulario para meter un usuario a la lista doble
     private void btnRegistrarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarUsuarioActionPerformed
         UsuarioDialog dialogo = new UsuarioDialog(this, true, gestorUsuarios);
         dialogo.setVisible(true);
         actualizarTablas();
     }//GEN-LAST:event_btnRegistrarUsuarioActionPerformed
 
-    //Busca un usuario por carne
+    //Busca por carne
     private void btnBuscarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarUsuarioActionPerformed
 
         String carne = JOptionPane.showInputDialog(this, "Digite el carné del usuario:", "Buscar usuario",
@@ -961,7 +956,7 @@ public class Principal extends javax.swing.JFrame {
                 + "Atrasos acumulados: " + usuario.getAtrasos());
     }//GEN-LAST:event_btnBuscarUsuarioActionPerformed
 
-    //Elimina de la lista el usuario seleccionado
+    //Saca de la lista al usuario seleccionado
     private void btnEliminarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarUsuarioActionPerformed
 
         String carne = codigoSeleccionado(tblUsuarios);
@@ -986,7 +981,7 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnEliminarUsuarioActionPerformed
 
-    //Reactiva manualmente a un usuario que quedo suspendido por atrasos
+    //Le levanta la suspension a un usuario
     private void btnReactivarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReactivarUsuarioActionPerformed
 
         String carne = codigoSeleccionado(tblUsuarios);
@@ -1013,12 +1008,12 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnReactivarUsuarioActionPerformed
 
-    //Reporte de sanciones: atrasos, multas y estado de cada usuario
+    //El reporte con atrasos, multas y estado de cada quien
     private void btnCalcularSancionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularSancionesActionPerformed
         mostrarTexto("Cálculo de sanciones", gestorPrestamos.calcularSanciones());
     }//GEN-LAST:event_btnCalcularSancionesActionPerformed
 
-    //Saca del historial la ultima devolucion registrada
+    //Saca del historial la devolucion mas reciente
     private void btnDesapilarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesapilarActionPerformed
 
         Devolucion devolucion = gestorPrestamos.getDevoluciones().verTope();
@@ -1040,7 +1035,7 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnDesapilarActionPerformed
 
-    //Opciones del menu que llevan a la pestaña correspondiente
+    //Estas opciones del menu solo saltan a la pestaña que toca
     private void miVerPrestamosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miVerPrestamosActionPerformed
         actualizarTablas();
         jTabbedPane1.setSelectedComponent(pnlPrestamos);
@@ -1056,19 +1051,19 @@ public class Principal extends javax.swing.JFrame {
         jTabbedPane1.setSelectedComponent(pnlDevoluciones);
     }//GEN-LAST:event_miVerDevolucionesActionPerformed
 
-    //Recorre la lista doble del final hacia el inicio
+    //Va del final al inicio por la lista doble
     private void btnRecorridoInversoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecorridoInversoActionPerformed
         mostrarTexto("Recorrido inverso de la lista de usuarios", gestorUsuarios.recorridoInverso());
     }//GEN-LAST:event_btnRecorridoInversoActionPerformed
 
-    //Abre el formulario del prestamo
+    //Formulario del prestamo
     private void btnRegistrarPrestamoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarPrestamoActionPerformed
         PrestamoDialog dialogo = new PrestamoDialog(this, true, gestorPrestamos);
         dialogo.setVisible(true);
         actualizarTablas();
     }//GEN-LAST:event_btnRegistrarPrestamoActionPerformed
 
-    //Abre el formulario de la devolucion, con el prestamo seleccionado
+    //Formulario de la devolucion, ya con el prestamo seleccionado
     private void btnRegistrarDevolucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarDevolucionActionPerformed
 
         String codigo = codigoSeleccionado(tblPrestamos);
@@ -1078,15 +1073,15 @@ public class Principal extends javax.swing.JFrame {
         actualizarTablas();
 
         /*
-         * Cuando el ejemplar regresa hay que atender al primer usuario que lo
-         * tenia reservado, que es lo que pide el enunciado.
+         * Cuando el ejemplar regresa hay que atender al primero que lo tenia
+         * reservado, tal como lo pide el enunciado.
          */
         if (dialogo.getLibroDevuelto() != null) {
             revisarReservaPendiente(dialogo.getLibroDevuelto());
         }
     }//GEN-LAST:event_btnRegistrarDevolucionActionPerformed
 
-    //Pregunta si se le asigna el libro devuelto al primero de la cola
+    //Le consulta al bibliotecario si se lo asigna al primero de la cola
     private void revisarReservaPendiente(String codigoLibro) {
 
         Reserva reserva = gestorPrestamos.reservaPendienteDe(codigoLibro);
@@ -1127,14 +1122,14 @@ public class Principal extends javax.swing.JFrame {
         }
     }
 
-    //Encola una reserva
+    //Mete una reserva en la cola
     private void btnRegistrarReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarReservaActionPerformed
         ReservaDialog dialogo = new ReservaDialog(this, true, gestorPrestamos);
         dialogo.setVisible(true);
         actualizarTablas();
     }//GEN-LAST:event_btnRegistrarReservaActionPerformed
 
-    //Desencola la reserva que lleva mas tiempo esperando y le hace el prestamo
+    //Le hace el prestamo al que lleva mas tiempo esperando
     private void btnAtenderReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtenderReservaActionPerformed
 
         try {
@@ -1158,7 +1153,7 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnAtenderReservaActionPerformed
 
-    //Muestra la reserva que esta de primera en la cola sin sacarla
+    //Muestra quien va de primero, sin sacarlo de la cola
     private void btnVerFrenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerFrenteActionPerformed
 
         Reserva reserva = gestorPrestamos.getReservas().verFrente();
@@ -1177,7 +1172,7 @@ public class Principal extends javax.swing.JFrame {
                 "Cola de reservas", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnVerFrenteActionPerformed
 
-    //Muestra la ultima devolucion registrada, que es el tope de la pila
+    //La ultima devolucion registrada, o sea el tope de la pila
     private void btnVerTopeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerTopeActionPerformed
 
         Devolucion devolucion = gestorPrestamos.getDevoluciones().verTope();
@@ -1199,7 +1194,7 @@ public class Principal extends javax.swing.JFrame {
                 "Pila de devoluciones", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnVerTopeActionPerformed
 
-    //Suma las multas de toda la pila
+    //El total de multas de toda la pila
     private void btnTotalMultasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTotalMultasActionPerformed
         JOptionPane.showMessageDialog(this,
                 "Devoluciones registradas: " + gestorPrestamos.getDevoluciones().contar() + "\n"
@@ -1207,17 +1202,17 @@ public class Principal extends javax.swing.JFrame {
                 "Sanciones por atraso", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnTotalMultasActionPerformed
 
-    //Vuelve a recorrer las estructuras
+    //Refresca todo
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         actualizarTablas();
     }//GEN-LAST:event_btnActualizarActionPerformed
 
-    //Cierra la aplicacion desde la barra de abajo
+    //El boton de abajo hace lo mismo que la opcion del menu
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         miSalirActionPerformed(evt);
     }//GEN-LAST:event_btnSalirActionPerformed
 
-    //Cierra la aplicacion
+    //Cierra el programa
     private void miSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miSalirActionPerformed
 
         int respuesta = JOptionPane.showConfirmDialog(this,
@@ -1231,7 +1226,7 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_miSalirActionPerformed
 
-    //Datos del proyecto
+    //La ventana con los datos del proyecto
     private void miAcercaDeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miAcercaDeActionPerformed
         AcercaDialog dialogo = new AcercaDialog(this, true);
         dialogo.setVisible(true);
