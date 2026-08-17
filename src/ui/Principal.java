@@ -609,6 +609,8 @@ public class Principal extends javax.swing.JFrame {
         btnRegistrarLibro = new javax.swing.JButton();
         btnAgregarEjemplar = new javax.swing.JButton();
         btnRecorridoInorden = new javax.swing.JButton();
+        btnRecorridoPreorden = new javax.swing.JButton();
+        btnRecorridoPostorden = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblLibros = new javax.swing.JTable();
         pnlUsuarios = new javax.swing.JPanel();
@@ -787,6 +789,28 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         tbCatalogo.add(btnRecorridoInorden);
+
+        btnRecorridoPreorden.setText("Preorden");
+        btnRecorridoPreorden.setFocusable(false);
+        btnRecorridoPreorden.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnRecorridoPreorden.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnRecorridoPreorden.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRecorridoPreordenActionPerformed(evt);
+            }
+        });
+        tbCatalogo.add(btnRecorridoPreorden);
+
+        btnRecorridoPostorden.setText("Postorden");
+        btnRecorridoPostorden.setFocusable(false);
+        btnRecorridoPostorden.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnRecorridoPostorden.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnRecorridoPostorden.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRecorridoPostordenActionPerformed(evt);
+            }
+        });
+        tbCatalogo.add(btnRecorridoPostorden);
 
         pnlCatalogo.add(tbCatalogo, java.awt.BorderLayout.NORTH);
 
@@ -1264,6 +1288,16 @@ public class Principal extends javax.swing.JFrame {
         dialogo.setVisible(true);
     }//GEN-LAST:event_miAcercaDeActionPerformed
 
+    private void btnRecorridoPreordenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecorridoPreordenActionPerformed
+        // TODO add your handling code here:
+        mostrarTexto("Recorrido preorden del árbol", arbol.recorridoPreorden());
+    }//GEN-LAST:event_btnRecorridoPreordenActionPerformed
+
+    private void btnRecorridoPostordenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecorridoPostordenActionPerformed
+        // TODO add your handling code here:
+        mostrarTexto("Recorrido postorden del árbol", arbol.recorridoPostorden());
+    }//GEN-LAST:event_btnRecorridoPostordenActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnAgregarEjemplar;
@@ -1271,6 +1305,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton btnCalcularSanciones;
     private javax.swing.JButton btnReactivarUsuario;
     private javax.swing.JButton btnRecorridoInorden;
+    private javax.swing.JButton btnRecorridoPostorden;
+    private javax.swing.JButton btnRecorridoPreorden;
     private javax.swing.JButton btnRegistrarDevolucion;
     private javax.swing.JButton btnRegistrarLibro;
     private javax.swing.JButton btnRegistrarPrestamo;
