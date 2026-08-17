@@ -1,16 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package BibliotecaNova;
-
-import javax.swing.JOptionPane;
 
 /**
  *
- * @author aleja
+ * @author Grupo 3
  */
-
 public class ListaEjemplares {
 
     private NodoEjemplar inicio;
@@ -38,19 +31,59 @@ public class ListaEjemplares {
         }
     }
 
-    public void mostrarEjemplares() {
+    public Ejemplar buscarEjemplar(String codigoEjemplar) {
+        NodoEjemplar aux = inicio;
+        while (aux != null) {
+            if (aux.getElemento().getCodigoEjemplar().equals(codigoEjemplar)) {
+                return aux.getElemento();
+            }
+            aux = aux.getSiguiente();
+        }
+        return null;
+    }
+
+    public Ejemplar buscarDisponible() {
+        NodoEjemplar aux = inicio;
+        while (aux != null) {
+            if (aux.getElemento().getEstado().equals("Disponible")) {
+                return aux.getElemento();
+            }
+            aux = aux.getSiguiente();
+        }
+        return null;
+    }
+
+    public int contar() {
+        int total = 0;
+        NodoEjemplar aux = inicio;
+        while (aux != null) {
+            total = total + 1;
+            aux = aux.getSiguiente();
+        }
+        return total;
+    }
+
+    public int contarDisponibles() {
+        int total = 0;
+        NodoEjemplar aux = inicio;
+        while (aux != null) {
+            if (aux.getElemento().getEstado().equals("Disponible")) {
+                total = total + 1;
+            }
+            aux = aux.getSiguiente();
+        }
+        return total;
+    }
+
+    public String listar() {
         String texto = "";
         NodoEjemplar aux = inicio;
         while (aux != null) {
-            texto = texto + "Codigo: " + aux.getElemento().getCodigoEjemplar()
+            texto = texto + "Ejemplar: " + aux.getElemento().getCodigoEjemplar()
                     + " - Estado: " + aux.getElemento().getEstado() + "\n";
             aux = aux.getSiguiente();
         }
-        if (texto.equals("")) {
-            JOptionPane.showMessageDialog(null, "No hay ejemplares registrados");
-        } else {
-            JOptionPane.showMessageDialog(null, texto);
-        }
+        return texto;
     }
 
 }

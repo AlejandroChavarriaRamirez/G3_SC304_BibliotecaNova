@@ -1,12 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package BibliotecaNova;
 
 /**
  *
- * @author aleja
+ * @author Grupo 3
  */
 public class Ejemplar {
 
@@ -15,7 +11,7 @@ public class Ejemplar {
 
     public Ejemplar() {
         this.codigoEjemplar = "";
-        this.estado = "";
+        this.estado = "Disponible";
     }
 
     public String getCodigoEjemplar() {
