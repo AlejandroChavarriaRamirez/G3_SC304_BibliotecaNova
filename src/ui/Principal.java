@@ -509,7 +509,7 @@ public class Principal extends javax.swing.JFrame {
         }
 
         String hoy = fechaDeHoy();
-        Prestamo prestamo = registrarPrestamo(reserva.getCarneUsuario(), reserva.getCodigoLibro(), hoy, hoy);
+        Prestamo prestamo = registrarPrestamo(reserva.getCarneUsuario(), reserva.getCodigoLibro(), hoy, fechaVencimiento(DIAS_PRESTAMO));
 
         if (prestamo != null) {
             reservas.desencolar();
@@ -526,7 +526,7 @@ public class Principal extends javax.swing.JFrame {
         }
 
         String hoy = fechaDeHoy();
-        Prestamo prestamo = registrarPrestamo(reserva.getCarneUsuario(), reserva.getCodigoLibro(), hoy, hoy);
+        Prestamo prestamo = registrarPrestamo(reserva.getCarneUsuario(), reserva.getCodigoLibro(), hoy, fechaVencimiento(DIAS_PRESTAMO));
 
         if (prestamo != null) {
             reservas.desencolarPorLibro(codigoLibro);
